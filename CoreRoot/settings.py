@@ -9,23 +9,31 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
+
+
+from dotenv import load_dotenv
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv()
 
+ENV = os.environ.get("ENV")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8b0p_6*+7i1m-x(ds%x&xho8x!gxsmc%9cyd(#ay$xtsctwlua'
+SECRET_KEY = os.environ.get("SECRET_KEY", default="$lqw938^j&q=%3jd@1%8)643&)wcbj-q*3)s(g*%*1phofzyvm")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if ENV == "PROD" else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS",default="*").split(",")
 
 
 # Application definition
@@ -42,7 +50,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    
     'core',
     'core.user',
     'core.auth',
@@ -109,17 +116,15 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
- 
-        'NAME': 'coredb',
- 
-        'USER': 'core',
- 
-        'PASSWORD': 'kushal123',
- 
-        'HOST': 'localhost',
- 
-        'PORT': '5432',
-        
+        'NAME': os.getenv("DATABASE_NAME",'coredb'),
+
+        'USER':os.getenv("DATABASE_USER",'core'),
+
+        'PASSWORD': os.getenv("DATABASE_PASSWORD",'kushal123'),
+
+        'HOST':os.getenv("DATABASE_HOST",'localhost'),
+
+        'PORT': os.getenv("DATABASE_PORT",'5432'),
     }
 }
 
@@ -170,7 +175,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
 "http://localhost:3000",
-"http://127.0.0.1:3000"
+"http://127.0.0.1:3000",
+"http://localhost:8000",
+"http://127.0.0.1:8000",
 ]
 
 

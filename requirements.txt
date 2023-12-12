@@ -1,5 +1,11 @@
-Django===4.0
-psycopg2-binary===2.9.6
+Django>=3.2,<4.0
+psycopg2-binary
 django-filter===23.2 
 djangorestframework===3.14.0
 drf-nested-routers===0.93.4
+djangorestframework-simplejwt>=4.0.0,<5.0.0
+django-cors-headers>=3.8.0,<4.0.0
+gunicorn # Most web applications run with an Apache server, this gunicorn designed to run web applications built with Python,it is an  WSGI HTTP server for unix systems.
+python-dotenv
+pillow
+pytest-django

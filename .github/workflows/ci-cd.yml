@@ -1,0 +1,22 @@
+name: Build, Test and Deploy Postgram
+
+on:
+    push:
+        branches: [ main ]
+
+jobs:
+    build-test:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - name: Injecting env vars
+          run: |
+            echo "${{ secrets.TEST_SECRETS }}">> .env
+        - name: Building containers
+          run: |
+            docker-compose up -d --build
+        - name: Running Tests
+          run: |
+            docker-compose exec -T api pytest
+
+
